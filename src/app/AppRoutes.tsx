@@ -1,7 +1,23 @@
+import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Home } from '@/features/home'
-import { MasterRoutes } from '@/features/master'
-import { AdminRoutes } from '@/features/admin'
+
+// 通常import
+// import { MasterRoutes } from '@/features/master'
+// import { AdminRoutes } from '@/features/admin'
+
+// 遅延import
+// --named export使用の場合はコッチ
+const MasterRoutes = React.lazy(async () => ({ 
+  default: (await import('@/features/master')).MasterRoutes 
+}))
+const AdminRoutes = React.lazy(async () => ({ 
+  default: (await import('@/features/admin')).AdminRoutes 
+}))
+
+// --default export使用の場合はコッチ （※index.tsやエイリアスパスは使えない）
+// const MasterRoutes = React.lazy(() => import('../features/master/MasterRoutes'))
+// const AdminRoutes = React.lazy(() => import('../features/master/AdminRoutes'))
 
 export function AppRoutes() {
   const auth = true
